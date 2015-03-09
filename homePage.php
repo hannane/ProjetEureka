@@ -21,7 +21,7 @@ $bd=getBdLink();
         <input type="text" id="login" name="login">
 		
         <label for="mdp">Mot de passe</label>
-        <input type="password" id="mdp" name="password">
+        <input type="password" id="password" name="password">
 		
 		<input type="submit" value="Connexion"> 
 	</form>
