@@ -1,6 +1,6 @@
 <?php
 /* BdUtil
-   Liste de toutes les méthodes */
+   Liste de toutes les mÃ©thodes */
    
 /*  dataListCountry
  void -> String */
