@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* BdUtil
    Liste de toutes les méthodes */
 // Initialisation des constantes -----------------------------------------------------------------------
@@ -7,100 +7,167 @@
 
 // Méthodes --------------------------------------------------------------------------------------------
 
-/* getBdLink - Renvoie le lien vers la BD
+/* connectBD - Renvoie le lien vers la BD
 (void) -> (String) */
-function getBdLink () =
+function connectDB(){
+ $mysql=mysql_connect('localhost','root','root')or die(mysql_error()); // connection à la base de donnees
+	$db_selected = mysql_select_db('utilisateurs', $mysql); // choisir la BDD
+	if (!$db_selected) {
+		die ('NOT SELECTED DATABASE: ' . mysql_error()); // erreur
+	}
+	return $mysql;
+}
+
+/* disconnectBD - Deconnecte de la BD
+(void) -> (void) */
+function disconectDB($mysql){
+mysqli_close();
+}
 
 /* addUser - Créer un nouvel utilisateur dans la BD
-(link, login, pwd, surname, name, email, country, campFr, isProf, isResp) -> (void) */
-function addUser ($link, $login, $pwd, $surname, $name, $email, $country, $campFr, $isProf, $isResp) =
+(idUser, login, pwd, name, surname, email, country, campFr, isProf, isResp) -> (void) */
+function addUser($idUser, $login, $pwd, $name, $surname, $email, $country, $campFr, $isProf, $isResp){
+	$lien=connectDB();
+		$query='SELECT idUser FROM users WHERE login ="'.$login.'"' ; // verifier si user deja existe
+		$call=mysql_query($query)or die(mysql_error());
+		if(mysql_num_rows($call)>0){
+		 return false;
+		}
+		else{
+
+			$res='INSERT INTO users VALUES(NULL,"'.$login.'","'.$pwd.'" ,"'.$name.'","'.$surname.'","'.$email.'","'.$country.'","'.$campFr.'","'.$isProf.'","'.$isResp.'")'or die(mysql_error());
+			$analyse=mysql_query($res)or die("Connection ERROR".mysql_error());//sinon erreur;
+			if(!$analyse){
+			$message  = 'Error call: ' . mysql_error() . "\n";
+            $message .= 'All call: ' . $res;
+              die($message);
+			}
+	}
+	mysql_close();//fermer la BDD
+	return true;
 
 /* delUser - Supprime un utilisateur de la BD
-(link, idUser) -> (void) */
-function delUser ($link, $idUser) =
+(login) -> (void) */
+function delUser($login){ // A changer  !!!!!!! il faudrait donner idUser plutot que le login
+	$lien=connectDB();
+		$query='DELETE  FROM users WHERE login ="'.$login.'"' ;//verifier si user deja exist
+		$call=mysql_query($query)or die(mysql_error());
+	mysql_close();//fermer la BDD
+	return true;
+}
 
 /* isProf - Renvoie true si l’utilisateur est un professeur
-(link, idUser) -> (boolean) */
-function isProf ($link, $idUser) =
+(idUser) -> (boolean) */
+function isProf($idUser){
+	$lien=connectDB();
+	$query='SELECT isProf FROM users WHERE idUser ="'.$idUser.'"';
+	$res=mysql_query($query)or die("Connection ERROR".mysql_error());
+	mysql_close();
+	if($res==1){
+	return true;
+	}
+	return false;
+}
 
 /* isResp - Renvoie true si l’utilisateur est un responsable
-(link, idUser) -> (boolean) */
-function isResp ($link, $idUser) =
+(idUser) -> (boolean) */
+function isResp($idUser){
+	$lien=connectDB();
+	$query='SELECT isResp FROM users WHERE idUser ="'.$idUser.'"';
+	$res=mysql_query($query)or die("Connection ERROR".mysql_error());
+	mysql_close();
+	if($res==1){
+	return true;
+	}
+	return false;
+}
 
 /* getPwd - Renvoie le mot de passe de l'utilisateur
-(link, idUser) -> (pwd) */
-function getPwd ($link, $idUser) =
+(idUser) -> (pwd) */
+function getPwd ($idUser){
+	$lien=connectDB();
+	$query='SELECT `password` FROM `users` WHERE `idUser` ="'.$idUser.'"';
+	$res=mysql_query($query)or die("Connection ERROR".mysql_error());
+	mysql_close();
+	return $res;
+}
 
 /* getId - Renvoie l’id de l’utilisateur
-(link, login) -> (int) */
-function getId ($link, $login) =
+(login) -> (int) */
+	function getId ($login){
+	$lien=connectDB();
+	$query='SELECT `idUser` FROM `users` WHERE `login` ="'.$login.'"';
+	$res=mysql_query($query)or die("Connection ERROR".mysql_error());
+	mysql_close();
+	return $res;
+}
 
 /* getNbQuest - Renvoie le nombre de question dans la BD
-(link) -> (int) */
-function getNbQuest ($link) =
+(void) -> (int) */
+function getNbQuest () =
 
 /* getLvlMat - Renvoie un tableau de boolean avec pour index [L1][L2][L3][M1][M2]
-(link, idMat) -> ([boolean]) */
-function getLvlMat ($link, $idMatiere) =
+(idMat) -> ([boolean]) */
+function getLvlMat ($idMatiere) =
 
 /* getUserInfo - Renvoie un tableau de String avec pour index  [name][surmane][email][country][campFr]
-(link, idUser) -> (String) */
-function getUserInfo ($link, $idUser) =
+(idUser) -> (String) */
+function getUserInfo ($idUser) =
 
 /* getIdMat - Renvoie l’id de la matière
-(link, nameMat) -> (int) */
-function getIdMat ($link, $nameMat) =
+(nameMat) -> (int) */
+function getIdMat ($nameMat) =
 
 /* chgUserInfo - Change les données d'un utilisateur
-(link, idUser, pwd, surname, name, email, country, campFr) -> (void) */
-function chgUserInfo ($link, $idUser, $pwd, $surname, $name, $email, $country, $campFr) =
+(idUser, pwd, surname, name, email, country, campFr) -> (void) */
+function chgUserInfo ($idUser, $pwd, $surname, $name, $email, $country, $campFr) =
 
 /* chgMatInfo - Change les données d'une matière
-(link, idMat, title, desc, lvlL1, lvlL2, lvlL3, lvlM1, lvlM2) -> (void) */
-function chgMatInfo ($link, $idMat, $title, $desc, $lvlL1, $lvlL2, $lvlL3, $lvlM1, $lvlM2) =
+(idMat, title, desc, lvlL1, lvlL2, lvlL3, lvlM1, lvlM2) -> (void) */
+function chgMatInfo ($idMat, $title, $desc, $lvlL1, $lvlL2, $lvlL3, $lvlM1, $lvlM2) =
 
 /* addQuest - Créer une nouvelle question dans la BD
-(link, idQuest, idMat, idUser, lvlQuest, quest, answ, goodAnsw, correction, coef) -> (void) */
-function getBdLink ($link, $idQuest, $idMat, $idUser, $lvlQuest, $quest, $answ, $goodAnsw, $correction, $coef) =
+(idQuest, idMat, idUser, lvlQuest, quest, answ, goodAnsw, correction, coef) -> (void) */
+function getBdLink ($idQuest, $idMat, $idUser, $lvlQuest, $quest, $answ, $goodAnsw, $correction, $coef) =
 
 /* delQuest - Supprimme une question dans la BD
-(link, idQuestion) -> void Doit appeler delStatQuest */
-function getBdLink ($link, $idQuestion) =
+(idQuestion) -> void Doit appeler delStatQuest */
+function getBdLink ($idQuestion) =
 
 /* statLength - Renvoie la longueur de la table Stat
-(link) -> (int) */
-function statLength ($link) =
+(void) -> (int) */
+function statLength () =
 
 /* addStat - Créer une nouvelle stat dans la BD
-(link, idQuest, idUser, goodRep, repUser) -> (void) */
-function addStat ($link, $idQuest, $idUser, $goodRep, $repUser) =
+(idQuest, idUser, goodRep, repUser) -> (void) */
+function addStat ($idQuest, $idUser, $goodRep, $repUser) =
 
 /* occQuest - Renvoie le nombre d'occurence de la question dans la table Stat
-(link, idQuest) -> int */
-function occQuest ($link, $idQuest) =
+(idQuest) -> int */
+function occQuest ($idQuest) =
 
 /* nbGoodAnsw - Renvoie le nombre de bonnes réponses envoyées pour une question
-(link, idQuest) -> int */
-function nbGoodAnsw ($link, $idQuest) =
+(idQuest) -> int */
+function nbGoodAnsw ($idQuest) =
 
 /* delStatQuest - Supprime les stats associées à une question dans la table Stat
-(link, idQuest) -> void */
-function delStatQuest ($link, $idQuest) =
+(idQuest) -> void */
+function delStatQuest ($idQuest) =
 
 /* getStatUserMat - Renvoie... 
-(link, idUser, nameMat) -> (nbGoodAnsw, NbQuest) */
-function getStatUserMa ($link, $idUser, $nameMat) =
+(idUser, nameMat) -> (nbGoodAnsw, NbQuest) */
+function getStatUserMa ($idUser, $nameMat) =
 
 /* getStatUser - Renvoie le nombre de bonnes réponses  et le nombre total de formulaire envoyé pour un utilisateur 
-(link, idUser) -> (nbBonneRep, NbQuestion) */
-function getStatUser ($link, $idUser) =
+(idUser) -> (nbBonneRep, NbQuestion) */
+function getStatUser ($idUser) =
 
 /* listQuestProf - Renvoie un tableau contenant la liste des idQuest écris par le professeur
-(link, idUser) -> [idQuest] */
-function listQuestProf ($link, $idUser) =
+(idUser) -> [idQuest] */
+function listQuestProf ($idUser) =
 
 /* listEtu - Renvoie la liste des id de tous les utilisateurs de type étudiant
-(link) -> ([idUser]) */
-function listEtu ($link) =
+(void) -> ([idUser]) */
+function listEtu () =
 
 ?>
