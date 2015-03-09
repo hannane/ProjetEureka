@@ -1,13 +1,12 @@
 <?php
-include_once("bd_utils.php");
-$bd=getBdLink();
+include_once("bdUtils.php");
 ?>
 
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta charset="UTF-8"/>
 	</head>
  
 <!-- Barre de menu -->
