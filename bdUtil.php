@@ -102,8 +102,8 @@ function getPwd ($idUser){
 	return $res;
 }
 
-/* userExist - Renvoie true si le login et le mot de passe sont corecte, sinon false
-(login, pwd) -> (boolean) */
+/* userExist - Renvoie l'id de l'utilisateur si le login et le mot de passe sont corecte, sinon false
+(login, pwd) -> (int ou boolean) */
 	function userExist ($login, $pwd){
 
 /* getNbQuest - Renvoie le nombre de question dans la BD
