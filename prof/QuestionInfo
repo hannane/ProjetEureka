@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html> 
+<!-- 
+___________________________________________________________________
+Page en Html permettent d'afficher les statistiques de n'importe
+quelle question.
+Prof l'ayant postée, taux de bonnes réponces...
+___________________________________________________________________
+-->
+<head>
+<meta charset="UTF-8"/>
+<title>
+Infos sur la question
+</title>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

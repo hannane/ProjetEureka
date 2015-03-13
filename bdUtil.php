@@ -132,11 +132,15 @@ function chgMatInfo ($idMat, $title, $desc, $lvlL1, $lvlL2, $lvlL3, $lvlM1, $lvl
 
 /* addQuest - Créer une nouvelle question dans la BD
 (idQuest, idMat, idUser, lvlQuest, quest, answ, goodAnsw, correction, coef) -> (void) */
-function getBdLink ($idQuest, $idMat, $idUser, $lvlQuest, $quest, $answ, $goodAnsw, $correction, $coef) =
+function addQuest ($idQuest, $idMat, $idUser, $lvlQuest, $quest, $answ, $goodAnsw, $correction, $coef) =
 
 /* delQuest - Supprimme une question dans la BD
 (idQuestion) -> void Doit appeler delStatQuest */
-function getBdLink ($idQuestion) =
+function delQuest ($idQuestion) =
+
+/* questInfo - Obtiends les informations d'une question
+(idQuestion) -> String[] [idMat][idUser][lvlQuest][quest][goodAnsw][answ][correction][coef]*/
+function questInfo ($idQuestion) =
 
 /* statLength - Renvoie la longueur de la table Stat
 (void) -> (int) */
