@@ -1,5 +1,18 @@
 <?php
 include("bdUtils.php");
+
+if (isset($_POST["login"]) && !empty($_POST["login"])) { // Si l'utilisateur veut se connecter
+	
+	$id = userExist($_POST["login"], $_POST["pwd"]) //On récupère son id si elle existe
+	
+	if ($id !== false) { // si l'id existe, on lance la session et on récupère le login le pwd et l'id
+		session_start; 
+		$_SESSION["uid"]=$id;
+		$_SESSION["login"]=$_POST["login"];
+		$_SESSION["pwd"]=$_POST["pwd"];
+	}
+	
+{
 ?>
 
 <html>
